@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./tests',timeout:60000,workers:1,use:{baseURL:process.env.TEST_URL||'http://127.0.0.1:5173/video-motion-analyzer/',viewport:{width:1600,height:1000},headless:true},webServer:process.env.TEST_URL?undefined:{command:'npm run dev',url:'http://127.0.0.1:5173/video-motion-analyzer/',reuseExistingServer:true},reporter:[['list'],['json',{outputFile:'test-results/results.json'}]]});
