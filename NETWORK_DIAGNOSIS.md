@@ -1,5 +1,13 @@
 # MediaPipe networking diagnosis — 2026-11-24 JST
 
+## Windows local continuation (current)
+
+The cloud observations below are historical and do not describe this Windows host. Direct Windows curl to the model origin returned HTTP 200 with normal certificate validation. Node native HTTPS fetched the complete model (5,777,746 bytes, SHA-256 `59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a`). No DNS, proxy denial or TLS failure was observed on this route.
+
+The synchronous Node→curl model-download invocation exited with code -1 without diagnostics, whereas standalone curl and native Node fetch both succeeded. The exact host-level cause is not established. The Windows branch of the existing asset helper now uses native fetch, disallows non-HTTPS redirects, keeps default certificate validation and preserves all existing archive/receipt/integrity checks. Linux/CI retains curl. Fixture acquisition and FFmpeg video generation also succeeded. The complete same-origin browser inference test passed on Windows Chromium without external hosts. No persistent CA registration or TLS exception was used.
+
+## Historical cloud diagnosis
+
 The user explicitly declined persistent Chromium CA registration. No CA was registered, no TLS verification was disabled, and no `ignoreHTTPSErrors` or certificate-error bypass was used.
 
 ## Observed results in the managed cloud machine

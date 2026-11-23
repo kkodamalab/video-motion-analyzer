@@ -4,7 +4,7 @@ Browser-local research workspace for manual motion measurement, multi-person pos
 
 **App:** https://kkodamalab.github.io/video-motion-analyzer/
 
-**v0.1.0 is an experimental research baseline, not a completed implementation of every requested feature.** See the explicit capability/limitation table below. No synthetic data are presented as measured data or successful inference.
+**v0.2.0 adds BALLET ROTATION to the experimental research baseline; it does not complete every original requested feature.** See the explicit capability/limitation table below. No synthetic data are presented as measured data or successful inference.
 
 ## Quick start / 操作方法
 
@@ -149,4 +149,6 @@ SETUP provides **BALLET FRAME DATA CSV**, **BALLET TURN SUMMARY CSV**, and **BAL
 
 Synthetic fixtures test known geometry and periods; they do **not** validate ballet-video accuracy. Real-model inference and real-video scientific accuracy are separate checks. See DEVELOPMENT_STATUS.md for verified results and outstanding publication steps.
 
-For a managed machine with preinstalled Chromium, use `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e`. Otherwise the standard Playwright install command above applies.
+On Windows PowerShell, use `npx playwright install chromium`, then `npm run test:e2e`; no Linux executable path is needed. If a stale cloud override was imported, remove only that override with `Remove-Item Env:PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH -ErrorAction SilentlyContinue`. For a separate Linux machine with preinstalled Chromium, the optional executable-path override remains supported.
+
+Windows acquisition uses Node's native HTTPS fetch with ordinary certificate verification, HTTPS-only redirects, and the same archive/SHA-256 receipt checks. Other platforms retain curl. No TLS bypass or persistent CA registration is required. `npm ci`, model acquisition, fixture generation, 65 unit tests, typecheck, bundled production build and 19 required E2E tests passed on Windows during the v0.2.0 continuation. See DEVELOPMENT_STATUS.md for deployment status and the separate limits of inference versus research-accuracy validation.

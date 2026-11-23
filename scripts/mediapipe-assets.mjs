@@ -64,8 +64,33 @@ async function download(path, url, kind) {
   await mkdir(resolve(path, ".."), { recursive: true });
   const temporary = path + ".download";
   try {
-    // curl inherits the managed HTTPS proxy and CA trust. Verification stays enabled.
-    execFileSync(
+    // Synchronous Node/curl download exited without diagnostics on the Windows
+    // host; standalone curl and native fetch succeeded. Native fetch keeps TLS
+    // verification enabled and writes the same independently checked artifact.
+    if (process.platform === "win32") {
+      let current = url;
+      let response;
+      for (let redirects = 0; redirects <= 5; redirects++) {
+        if (new URL(current).protocol !== "https:")
+          throw Error("Asset acquisition requires HTTPS for every redirect");
+        response = await fetch(current, {
+          redirect: "manual",
+          signal: AbortSignal.timeout(180000),
+        });
+        if ([301, 302, 303, 307, 308].includes(response.status)) {
+          const location = response.headers.get("location");
+          await response.body?.cancel();
+          if (!location || redirects === 5)
+            throw Error("Invalid or excessive asset redirects");
+          current = new URL(location, current).href;
+          continue;
+        }
+        if (!response.ok)
+          throw Error(`Asset HTTPS request failed: HTTP ${response.status}`);
+        await writeFile(temporary, Buffer.from(await response.arrayBuffer()));
+        break;
+      }
+    } else execFileSync(
       "curl",
       [
         "--fail",
