@@ -3,3 +3,9 @@ dist/
 test-results/
 playwright-report/
 *.tsbuildinfo
+
+# Reproducible deploy assets and test-only upstream fixture
+public/mediapipe/
+tests/fixtures/pose.jpg
+tests/fixtures/pose.jpg.provenance.json
+tests/fixtures/pose.webm
