@@ -1,6 +1,6 @@
 # v0.2.0 — BALLET ROTATION
 
-Prepared release notes; this file does not mean the release has been published.
+Release notes for the publicly verified v0.2.0 build. GitHub Releases records the tag's publication state.
 
 - Adds selectable ballet body axes, apparent/calibrated image tilt and reference-relative estimated 3D tilt.
 - Preserves raw MediaPipe pose observations and manual corrections for recalculation.
@@ -13,5 +13,7 @@ Prepared release notes; this file does not mean the release has been published.
 - Windows validation: 65 unit tests, explicit TypeScript check, production build, and 19 required Chromium E2E tests passed without skips (18 functional + 1 genuine MediaPipe UI inference). The genuine test checks all 33 image/world landmarks, stored 2D points, axis overlay, tilt timeline, numeric CSV content and JSON restoration, blocking external browser requests.
 
 Monocular 3D, heading and contact heuristics are not validated biomechanical measurements. Review identities and occlusions, calibrate references, and validate against annotation/motion capture before research use. Synthetic tests demonstrate arithmetic and UI behavior, not accuracy on real ballet videos.
+
+Public verification on 2026-11-24 JST: all 19 required Chromium E2E tests passed, zero skips, including real same-origin MediaPipe inference through the deployed UI. The public run produced 12 valid observed poses with 33 image/world landmarks each, valid tilt angles, numeric CSV output and restored JSON. HTML/JS/CSS/model/WASM HTTP status, MIME and SHA-256 matched the CI deployment artifact. PR #2 is merged; main Pages workflow succeeded. The real inference fixture is a human still-image-derived video, not an independently validated ballet recording.
 
 Publication checklist and actual verification results: DEVELOPMENT_STATUS.md.
