@@ -12,7 +12,7 @@ Updated 2026-11-24 JST. Resume record, not a guarantee of automatic resumption.
 - Genuine inference retained 33 image and 33 world landmarks, stored automatic 2D points, generated body-axis/tilt timeline and numeric CSV, and restored real inference JSON through the UI. All browser model/WASM requests were same-origin; external browser hosts were blocked. The fixture is a real-human **still image converted to video**, not real ballet-motion accuracy validation.
 - Small Windows continuation changes: native verified HTTPS download instead of the synchronous curl child that exited -1 without diagnostics; enhanced real inference assertions and evidence; ballet skeleton lines from the same current-time manual/automatic/interpolated joints (interpolation is dashed). No feature rewrite.
 - `npm audit --omit=dev`: 0 vulnerabilities. Full audit reports 5 findings in existing development dependencies (Vite/Vitest/esbuild/tinypool chain); dependencies have not been force-upgraded as part of this feature continuation. These tools are not shipped in the static bundle. Development server binds loopback only.
-- PR/main/Pages/v0.2.0 release: pending the final local gate and CI. Existing public site is still the previous release until deployment succeeds.
+- PR: https://github.com/kkodamalab/video-motion-analyzer/pull/2. Final Windows gate passed, including skeleton lines: 65 unit tests, typecheck, build, 19 required E2E / 0 skipped. First CI passed model/fixture acquisition, unit tests and build, but its Playwright install failed because `ubuntu-latest` selected unsupported Ubuntu 26.04. Workflow now pins supported Ubuntu 24.04; mandatory tests remain unchanged. Main/Pages/v0.2.0 release pending CI and live verification.
 
 ### Resume locally if interrupted
 

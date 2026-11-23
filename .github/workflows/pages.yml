@@ -11,7 +11,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   test-build:
-    runs-on: ubuntu-latest
+    # Playwright 1.56.1 ships Ubuntu 24.04 dependencies, not Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,7 +38,7 @@ jobs:
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: test-build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write
       id-token: write
