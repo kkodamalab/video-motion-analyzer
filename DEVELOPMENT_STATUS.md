@@ -4,6 +4,10 @@ Updated 2026-11-24 JST. Resume record, not a guarantee of automatic resumption.
 
 ## Windows continuation — current status (supersedes historical cloud blockers below)
 
+**Public app verified on 2026-11-24 JST.** PR #2 was merged as `8d9188a278cf1c9ce0def759289dd99ad06a2485`. [Main test/build/Pages deployment](https://github.com/kkodamalab/video-motion-analyzer/actions/runs/45281893536) succeeded. The actual [public URL](https://kkodamalab.github.io/video-motion-analyzer/) passed **19/19 required E2E tests, zero skips**, including genuine same-origin MediaPipe video inference. That public run retained **12 observed poses × 33 image and 33 world landmarks**, 12 valid tilt angles, axis/skeleton overlay, tilt timeline, CSV numeric values and JSON restoration. CSV has 96 rows across the initial eight runners; the seven undetected runners remain missing rather than fabricated.
+
+Public HTML, JS, CSS, manifest, model, and both WASM loader/binary variants returned HTTP 200 with expected MIME types and SHA-256 matching the exact CI Pages artifact. Model hash is recorded below. The first comparison to Windows-local HTML differed in line endings; the authoritative CI artifact matched byte-for-byte. No TLS exceptions or CA registrations were used. v0.2.0 release readiness is complete; GitHub Releases is the authoritative publication record.
+
 - Checkout: `C:\Users\kkoda\Documents\Codex\2026-10-22\files-pasted-by-the-user-web\outputs\video-motion-analyzer`.
 - Started from existing `origin/feature/ballet-rotation` at `63d9e1f`; working tree was clean. No repository was recreated and no user changes were discarded.
 - Windows tools: Git 2.55.0, Node 24.21.0, npm 11.19.0, authenticated gh, curl 8.23.0 (Schannel), FFmpeg 9.0.1, Playwright 1.56.1 / managed Chromium 141 build 1194. No cloud executable-path override required.
@@ -12,9 +16,9 @@ Updated 2026-11-24 JST. Resume record, not a guarantee of automatic resumption.
 - Genuine inference retained 33 image and 33 world landmarks, stored automatic 2D points, generated body-axis/tilt timeline and numeric CSV, and restored real inference JSON through the UI. All browser model/WASM requests were same-origin; external browser hosts were blocked. The fixture is a real-human **still image converted to video**, not real ballet-motion accuracy validation.
 - Small Windows continuation changes: native verified HTTPS download instead of the synchronous curl child that exited -1 without diagnostics; enhanced real inference assertions and evidence; ballet skeleton lines from the same current-time manual/automatic/interpolated joints (interpolation is dashed). No feature rewrite.
 - `npm audit --omit=dev`: 0 vulnerabilities. Full audit reports 5 findings in existing development dependencies (Vite/Vitest/esbuild/tinypool chain); dependencies have not been force-upgraded as part of this feature continuation. These tools are not shipped in the static bundle. Development server binds loopback only.
-- PR: https://github.com/kkodamalab/video-motion-analyzer/pull/2. Final Windows gate passed, including skeleton lines: 65 unit tests, typecheck, build, 19 required E2E / 0 skipped. First CI passed model/fixture acquisition, unit tests and build, but its Playwright install failed because `ubuntu-latest` selected unsupported Ubuntu 26.04. Workflow now pins supported Ubuntu 24.04; mandatory tests remain unchanged. Main/Pages/v0.2.0 release pending CI and live verification.
+- PR: https://github.com/kkodamalab/video-motion-analyzer/pull/2 (merged). Final Windows gate passed, including skeleton lines: 65 unit tests, typecheck, build, 19 required E2E / 0 skipped. First CI passed model/fixture acquisition, unit tests and build, but its Playwright install failed because `ubuntu-latest` selected unsupported Ubuntu 26.04. Workflow now pins supported Ubuntu 24.04; mandatory tests remain unchanged. Corrected PR CI, main CI and live public verification succeeded.
 
-### Resume locally if interrupted
+### Reproduce validation / future continuation
 
 1. `Set-Location` to the checkout above; inspect `git status` and preserve the feature branch edits.
 2. Run `npm run assets:fetch` (verifies retained receipts), `npm run test:inference:prepare`, `npm test`, `npx tsc -b`, `npm run build`, `npm run test:e2e`. Do not disable TLS or register a CA.
