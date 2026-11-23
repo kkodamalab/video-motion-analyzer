@@ -1,7 +1,8 @@
 import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
-test('actual video decode, zoom-invariant clicks and timeline seek',async({page})=>{
+for(const preset of ['GENERAL','BALLET ROTATION'])test(`actual video decode, zoom-invariant clicks and timeline seek (${preset})`,async({page})=>{
  await page.goto('./');
+ await page.getByLabel('Analysis preset').selectOption(preset);
  const encoded=await page.evaluate(async()=>{const canvas=document.createElement('canvas');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d')!;const stream=canvas.captureStream(15);const recorder=new MediaRecorder(stream,{mimeType:'video/webm'});const chunks:BlobPart[]=[];recorder.ondataavailable=e=>chunks.push(e.data);const done=new Promise<string>(resolve=>recorder.onstop=async()=>{const blob=new Blob(chunks,{type:'video/webm'});const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.readAsDataURL(blob)});recorder.start();for(let i=0;i<20;i++){ctx.fillStyle='#123456';ctx.fillRect(0,0,640,360);ctx.fillStyle='white';ctx.fillRect(i*15,150,40,40);await new Promise(r=>setTimeout(r,70))}recorder.stop();stream.getTracks().forEach(t=>t.stop());return done});
  await page.locator('input[type=file][accept="video/*"]').setInputFiles({name:'generated-test.webm',mimeType:'video/webm',buffer:Buffer.from(encoded,'base64')});
  await expect.poll(()=>page.locator('video').evaluate(v=>(v as HTMLVideoElement).videoWidth)).toBe(640);
