@@ -7,6 +7,8 @@ Updated 2026-11-24 JST. This file is a resumable work record, not a promise of a
 - Repository: https://github.com/kkodamalab/video-motion-analyzer
 - Existing public app: https://kkodamalab.github.io/video-motion-analyzer/
 - Feature branch: `feature/ballet-rotation`, based on fetched main `13199073911f5ff17c2c578833383b93c217bc9b`.
+- Source implementation commit: `418bb8c`, successfully pushed to `origin/feature/ballet-rotation`.
+- Branch: https://github.com/kkodamalab/video-motion-analyzer/tree/feature/ballet-rotation
 - PR/release: not created yet. Main has not been merged or redeployed by this task.
 
 ## Implemented
@@ -57,4 +59,5 @@ Updated 2026-11-24 JST. This file is a resumable work record, not a promise of a
 - Monocular direction/identity changes can defeat heuristics. Auto turns are candidates. Contact/balance events are manual.
 - Image-plane metric scale and 3D up are explicit user references; no automatic gravity/camera calibration or true center-of-mass measurement.
 - Real OS screen-sharing picker remains outside the automated checks inherited from v0.1.0.
-- Full external inference, CI, PR/merge, Pages deployment/public verification and GitHub release remain pending until access prerequisites and tests succeed.
+- Full external inference, real-video MediaPipe-to-overlay UI integration, CI, PR/merge, Pages deployment/public verification and GitHub release remain pending until access prerequisites and tests succeed. Raw pose retention/ROI/missing-detection integration is unit-tested with an explicitly mocked model, not claimed as genuine inference.
+- Git push succeeded with existing platform authentication. No new secret was requested; GitHub API access is a separate blocked route.
