@@ -1,6 +1,15 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
+  outputDir: "test-results/run",
+  projects: [
+    {
+      name: "functional",
+      testIgnore: ["**/inference.spec.ts", "**/network.spec.ts"],
+    },
+    { name: "inference", testMatch: "**/inference.spec.ts" },
+    { name: "external-network", testMatch: "**/network.spec.ts" },
+  ],
   timeout: 60000,
   workers: 1,
   use: {

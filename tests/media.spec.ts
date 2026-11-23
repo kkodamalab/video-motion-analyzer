@@ -1,5 +1,4 @@
 import {test,expect} from '@playwright/test';
-import fs from 'node:fs';
 for(const preset of ['GENERAL','BALLET ROTATION'])test(`actual video decode, zoom-invariant clicks and timeline seek (${preset})`,async({page})=>{
  await page.goto('./');
  await page.getByLabel('Analysis preset').selectOption(preset);
@@ -12,11 +11,4 @@ for(const preset of ['GENERAL','BALLET ROTATION'])test(`actual video decode, zoo
  await page.mouse.move(x,y);await page.mouse.wheel(0,-200);await page.waitForTimeout(200);await page.mouse.click(x,y);const second=await page.locator('.source-overlay circle[data-point]').last().evaluate(e=>({x:+e.getAttribute('cx')!,y:+e.getAttribute('cy')!}));
  expect(second.x).toBeCloseTo(first.x,1);expect(second.y).toBeCloseTo(first.y,1);
  await page.locator('.ruler .track-lane').click({position:{x:60,y:10}});await expect.poll(()=>page.locator('video').evaluate(v=>(v as HTMLVideoElement).currentTime)).toBeGreaterThan(0);
-});
-test('real MediaPipe model load and human landmark inference',async({page})=>{
- test.skip(!!process.env.TEST_URL&&!process.env.TEST_URL.includes('127.0.0.1'),'Source import probe runs locally; production uses UI flow');
- test.setTimeout(180000);await page.goto('./');
- const result=await page.evaluate(async()=>{const path='/video-motion-analyzer/src/auto.ts';const {loadModel}=await import(/* @vite-ignore */path);const {model,backend}=await loadModel(.5);const img=new Image();img.crossOrigin='anonymous';img.src='https://storage.googleapis.com/mediapipe-assets/pose.jpg';await img.decode();const result=model.detect(img);return {backend,people:result.landmarks.length,landmarks:result.landmarks[0]?.length,confidence:result.landmarks[0]?.[0].visibility}});
- expect(result.people).toBeGreaterThan(0);expect(result.landmarks).toBe(33);expect(result.confidence).toBeGreaterThan(.5);
- fs.mkdirSync('test-results',{recursive:true});fs.writeFileSync('test-results/model-evidence.json',JSON.stringify(result,null,2));
 });

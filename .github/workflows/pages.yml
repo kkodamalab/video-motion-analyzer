@@ -19,6 +19,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run assets:fetch
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run test:inference:prepare
       - run: npm test
       - run: npm run build
       - run: npx playwright install --with-deps chromium
